@@ -1,6 +1,6 @@
 extern crate adventlib;
 
-use std::collections::*;
+use std::collections::HashMap;
 
 pub fn solve() {
     println!("Day 5");
@@ -8,15 +8,38 @@ pub fn solve() {
     let lines = adventlib::read_input_lines("day5input.txt");
     let line = &lines[0];
 
-    // input is ASCII only
     let lowercase_letters = "abcdefghijklmnopqrstuvwxyz";
-    let uppercase_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let mut uppercase_map = HashMap::<char, char>::new();
 
-    let letter_pairs: Vec<_> = lowercase_letters
-        .chars()
-        .zip(uppercase_letters.chars())
-        .collect();
-    let pairs_used = HashMap::<(char, char), u32>::new();
+    // input is ASCII only
+    for c in lowercase_letters.chars() {
+        uppercase_map.insert(c, c.to_uppercase().next().unwrap());
+    }
+
+    let current_string = react_string(line, &uppercase_map);
+
+    println!("Final length (part 1): {}", current_string.len());
+
+    let mut min_length = current_string.len();
+
+    for filter_c in lowercase_letters.chars() {
+        let upper_filter_c = uppercase_map.get(&filter_c).unwrap();
+        let filtered_line: String = current_string
+            .chars()
+            .filter(|c| c != &filter_c && c != upper_filter_c)
+            .collect();
+
+        let reacted_string = react_string(&filtered_line, &uppercase_map);
+
+        if reacted_string.len() < min_length {
+            min_length = reacted_string.len();
+        }
+    }
+
+    println!("Best Length (part 2): {}", min_length);
+}
+
+fn react_string(line: &str, uppercase_map: &HashMap<char, char>) -> String {
     let mut replaced_one = true;
     let mut current_string = line.to_string();
     let mut new_string = String::new();
@@ -33,9 +56,9 @@ pub fn solve() {
             let next_char = current_string[i + 1..].chars().next();
             match next_char {
                 Some(nextc) => {
-                    if letter_pairs.contains(&(c, nextc)) || letter_pairs.contains(&(nextc, c))
-                    // if lowercase_letters.find(c) == uppercase_letters.find(nextc)
-                    //     || lowercase_letters.find(nextc) == uppercase_letters.find(c)
+                    if (uppercase_map.contains_key(&c) && uppercase_map.get(&c).unwrap() == &nextc)
+                        || (uppercase_map.contains_key(&nextc)
+                            && uppercase_map.get(&nextc).unwrap() == &c)
                     {
                         skip_one = true;
                         replaced_one = true;
@@ -50,5 +73,5 @@ pub fn solve() {
         new_string = String::new();
     }
 
-    println!("Final length: {}", current_string.len());
+    return current_string;
 }
