@@ -5,3 +5,5 @@ authors = ["Eric Frees <efrees@atlasrfid.com>"]
 
 [dependencies]
 regex = "1"
+chrono = "*"
+lazy_static = "*"
