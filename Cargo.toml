@@ -3,6 +3,10 @@ name = "advent_2018"
 version = "0.1.0"
 authors = ["Eric Frees <efrees@atlasrfid.com>"]
 
+[lib]
+name = "adventlib"
+path = "src/adventlib/lib.rs"
+
 [dependencies]
 regex = "1"
 chrono = "*"

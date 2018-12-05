@@ -1,8 +1,6 @@
 use chrono::{DateTime, TimeZone, Timelike, Utc};
 use regex::Regex;
 use std::collections::*;
-use std::fs::File;
-use std::io::prelude::*;
 
 #[derive(Debug, PartialEq)]
 enum GuardLogType {
@@ -21,15 +19,9 @@ struct GuardLog {
 pub fn solve() {
     println!("Day 4");
 
-    let filename = "day4input.txt";
+    let lines = adventlib::read_input_lines("day4input.txt");
 
-    let filename = "inputs/".to_owned() + filename;
-    let mut f = File::open(filename).expect("File not found.");
-    let mut contents = String::new();
-    f.read_to_string(&mut contents)
-        .expect("Problem reading the contents of the file.");
-
-    let mut guard_logs: Vec<_> = contents.lines().map(|x| parse_log_from_line(&x)).collect();
+    let mut guard_logs: Vec<_> = lines.iter().map(|x| parse_log_from_line(&x)).collect();
 
     guard_logs.sort_by_key(|x| x.time);
 

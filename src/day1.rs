@@ -1,18 +1,11 @@
 use std::collections::*;
-use std::fs::File;
-use std::io::prelude::*;
+
+extern crate adventlib;
 
 pub fn solve() {
     println!("Day 1");
 
-    let filename = "day1input.txt";
-
-    // TODO: factor out function
-    let filename = "inputs/".to_owned() + filename;
-    let mut f = File::open(filename).expect("File not found.");
-    let mut contents = String::new();
-    f.read_to_string(&mut contents)
-        .expect("Problem reading the contents of the file.");
+    let lines = adventlib::read_input_lines("day1input.txt");
 
     let mut total = 0;
     let mut seen = HashSet::new();
@@ -20,9 +13,8 @@ pub fn solve() {
     let mut first_repeated = 0;
     let mut searching = true;
 
-    let lines = contents.split_whitespace();
-    let int_parser = |x: &str| x.parse::<i32>().unwrap();
-    let diffs = lines.map(int_parser);
+    let int_parser = |x: &String| x.parse::<i32>().unwrap();
+    let diffs = lines.iter().map(int_parser);
     for diff in diffs {
         total += diff;
 
@@ -37,8 +29,7 @@ pub fn solve() {
     println!("Total: {}", total);
 
     while searching {
-        let lines = contents.split_whitespace();
-        let diffs = lines.map(int_parser);
+        let diffs = lines.iter().map(int_parser);
         for diff in diffs.into_iter() {
             total += diff;
 

@@ -1,23 +1,14 @@
 use std::collections::*;
-use std::fs::File;
-use std::io::prelude::*;
 
 pub fn solve() {
     println!("Day 2");
 
-    let filename = "day2input.txt";
-
-    let filename = "inputs/".to_owned() + filename;
-    let mut f = File::open(filename).expect("File not found.");
-    let mut contents = String::new();
-    f.read_to_string(&mut contents)
-        .expect("Problem reading the contents of the file.");
+    let lines = adventlib::read_input_lines("day2input.txt");
 
     let mut doubles_count = 0;
     let mut triples_count = 0;
 
-    let lines = contents.split_whitespace();
-    for line in lines {
+    for line in lines.iter() {
         let mut counts = HashMap::<char, i32>::new();
         for c in line.chars() {
             counts.entry(c).and_modify(|x| *x += 1).or_insert(1);
@@ -34,7 +25,6 @@ pub fn solve() {
 
     println!("Checksum: {}", doubles_count * triples_count);
 
-    let lines: Vec<_> = contents.split_whitespace().collect();
     let mut matched_string = "".to_string();
     for i in 0..lines.len() {
         for j in 0..lines.len() {
@@ -42,8 +32,8 @@ pub fn solve() {
                 continue;
             }
 
-            let first_line = lines[i];
-            let second_line = lines[j];
+            let first_line = &lines[i];
+            let second_line = &lines[j];
 
             if first_line.len() != second_line.len() {
                 println!("Did not expect different line lengths.");

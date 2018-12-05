@@ -1,7 +1,5 @@
 use regex::Regex;
 use std::collections::*;
-use std::fs::File;
-use std::io::prelude::*;
 
 pub fn solve() {
     println!("Day 3");
@@ -10,18 +8,11 @@ pub fn solve() {
     let mut last_drawn = vec![[0; 1000]; 1000];
     let mut non_overlapped_ids = HashSet::<i32>::new();
 
-    let filename = "day3input.txt";
+    let lines = adventlib::read_input_lines("day3input.txt");
 
-    let filename = "inputs/".to_owned() + filename;
-    let mut f = File::open(filename).expect("File not found.");
-    let mut contents = String::new();
-    f.read_to_string(&mut contents)
-        .expect("Problem reading the contents of the file.");
-
-    let lines = contents.lines();
     let re = Regex::new(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)").unwrap();
 
-    for line in lines {
+    for line in lines.iter() {
         let cap = re.captures_iter(line).next().unwrap();
         let id: i32 = cap[1].parse().unwrap();
         let x: i32 = cap[2].parse().unwrap();
