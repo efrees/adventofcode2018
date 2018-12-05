@@ -9,12 +9,14 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 
 fn main() {
     time(&day1::solve);
     time(&day2::solve);
     time(&day3::solve);
     time(&day4::solve);
+    time(&day5::solve);
 }
 
 fn time(f: &Fn()) {
@@ -22,7 +24,7 @@ fn time(f: &Fn()) {
     f();
     let duration = now.elapsed();
     println!(
-        "Solved in {}.{:09}s",
+        "Solved in {}.{:09}s\n",
         duration.as_secs(),
         duration.subsec_nanos()
     );
