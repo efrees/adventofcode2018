@@ -55,6 +55,11 @@ impl FillPoint {
     fn is_in_boundaries(&self, max_x: u16, max_y: u16) -> bool {
         return self.x <= max_x && self.y <= max_y;
     }
+
+    fn dist_to(&self, other_x: u16, other_y: u16) -> u16 {
+        return ((self.x as i32 - other_x as i32).abs() + (self.y as i32 - other_y as i32).abs())
+            as u16;
+    }
 }
 
 pub fn solve() {
@@ -62,75 +67,74 @@ pub fn solve() {
 
     let lines = adventlib::read_input_lines("day6input.txt");
 
-    let mut fill_frontier: VecDeque<_> = lines
+    let mut seed_points: VecDeque<_> = lines
         .iter()
         .enumerate()
         .map(|(i, s)| parse_point(&s, i as u16))
         .collect();
 
-    let max_x = fill_frontier.iter().map(|p| p.x).max().unwrap();
-    let max_y = fill_frontier.iter().map(|p| p.y).max().unwrap();
-    let point_count = fill_frontier.len();
-    let tie_val = (point_count + 1) as u16;
+    println!("Debug: Seed point count {}", seed_points.len());
+
+    let max_x = seed_points.iter().map(|p| p.x).max().unwrap();
+    let max_y = seed_points.iter().map(|p| p.y).max().unwrap();
 
     let mut grid = HashMap::new();
-    let mut candidates: HashMap<_, _> = fill_frontier.iter().map(|p| (p.seed_id, 0)).collect();
-    let mut infinite_candidates = HashSet::new();
 
-    // Idea: fill from each point, breadth first
-    while !fill_frontier.is_empty() {
-        let point = fill_frontier.pop_front().unwrap();
-        grid.entry((point.x, point.y))
-            .and_modify(|cur: &mut FillPoint| {
-                if cur.d > point.d {
-                    // found a better one.
-                    cur.d = point.d;
-                    cur.seed_id = point.seed_id;
-                    for next in point.neighbors() {
-                        if next.is_in_boundaries(max_x, max_y) {
-                            fill_frontier.push_back(next);
-                        }
-                    }
-                } else if cur.d == point.d && cur.seed_id != point.seed_id {
-                    cur.seed_id = tie_val;
-                }
-            }).or_insert_with(|| {
-                for next in point.neighbors() {
-                    if next.is_in_boundaries(max_x, max_y) {
-                        fill_frontier.push_back(next);
-                    }
-                }
-                return point;
-            });
-    }
-
-    // for i in 0..400 {
-    //     for j in 0..400 {
-    //         match grid.get(&(i, j)) {
-    //             Some(point) => print!("|{}", point.seed_id),
-    //             None => (),
-    //         }
-    //     }
-    //     println!();
-    // }
-
-    // Pass through the grid again, eliminating any candidates touching the perimeter.
-    // Then look for the largest remaining fill
-    for (_, point) in grid.iter() {
-        // println!("Debug: {:#?}", point);
-        candidates.entry(point.seed_id).and_modify(|v| *v += 1);
-        if point.x == 0 || point.y == 0 || point.x == max_x || point.y == max_y {
-            infinite_candidates.insert(point.seed_id);
+    // pre-compute all distances to locations within the bounding box
+    for i in 0..=max_x {
+        for j in 0..=max_y {
+            for seed_point in seed_points.iter() {
+                let dist = seed_point.dist_to(i, j);
+                grid.entry((i, j))
+                    .and_modify(|cur: &mut HashSet<_>| {
+                        cur.insert((seed_point.seed_id, dist));
+                    }).or_insert_with(|| {
+                        let mut set = HashSet::new();
+                        set.insert((seed_point.seed_id, dist));
+                        return set;
+                    });
+            }
         }
     }
 
-    let largest_fill = candidates
-        .iter()
-        .filter(|(id, _v)| !infinite_candidates.contains(&id))
-        .map(|(_id, val)| val)
-        .max();
+    // Part 1
+    let mut all_closest = Vec::new();
+    for (coords, set) in grid.iter() {
+        let min_pair = set.iter().min_by_key(|(_id, d)| d).unwrap();
+        let tied_count = set.iter().filter(|v| v.1 == min_pair.1).count();
+        if tied_count == 1 {
+            all_closest.push((coords.0, coords.1, min_pair.0));
+        }
+    }
 
-    println!("Max finite fill: {}", largest_fill.unwrap());
+    let infinite_seeds: HashSet<_> = all_closest
+        .iter()
+        .filter(|(x, y, _id)| *x == 0 || *y == 0 || *x == max_x || *y == max_y)
+        .map(|(_, _, id)| *id)
+        .collect();
+
+    let mut region_sizes = HashMap::new();
+    for (_x, _y, id) in all_closest.iter() {
+        if infinite_seeds.contains(&id) {
+            continue;
+        }
+        region_sizes.entry(id).and_modify(|x| *x += 1).or_insert(1);
+    }
+
+    let largest_fill = region_sizes.values().max().unwrap();
+
+    println!("Max finite fill: {}", largest_fill);
+
+    // Part 2
+    let total_distance_thresh = 10_000;
+    let points_in_common_region = grid
+        .iter()
+        .map(|(coords, set): (&(u16, u16), &HashSet<(u16, u16)>)| {
+            set.iter().map(|(_id, d)| *d as u32).sum()
+        }).filter(|d: &u32| *d < total_distance_thresh)
+        .count();
+
+    println!("Points in common region: {}", points_in_common_region);
 }
 
 fn parse_point(line: &str, index: u16) -> FillPoint {
