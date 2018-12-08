@@ -67,13 +67,11 @@ pub fn solve() {
 
     let lines = adventlib::read_input_lines("day6input.txt");
 
-    let mut seed_points: VecDeque<_> = lines
+    let seed_points: VecDeque<_> = lines
         .iter()
         .enumerate()
         .map(|(i, s)| parse_point(&s, i as u16))
         .collect();
-
-    println!("Debug: Seed point count {}", seed_points.len());
 
     let max_x = seed_points.iter().map(|p| p.x).max().unwrap();
     let max_y = seed_points.iter().map(|p| p.y).max().unwrap();

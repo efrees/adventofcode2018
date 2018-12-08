@@ -12,6 +12,7 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
+mod day8;
 
 fn main() {
     time_with_label(&solve_all, "Total time: ");
@@ -22,9 +23,10 @@ fn solve_all() {
     time(&day2::solve);
     time(&day3::solve);
     time(&day4::solve);
-    // time(&day5::solve);
+    time(&day5::solve);
     time(&day6::solve);
-    // time(&day7::solve);
+    time(&day7::solve);
+    time(&day8::solve);
 }
 
 fn time(f: &Fn()) {
