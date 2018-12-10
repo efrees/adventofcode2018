@@ -1,6 +1,8 @@
 use std::fs::File;
 use std::io::Read;
 
+pub mod collections;
+
 pub fn read_input_raw(filename: &str) -> String {
     let filename = "inputs/".to_owned() + filename;
     let mut file = File::open(filename).expect("Could not find input file");

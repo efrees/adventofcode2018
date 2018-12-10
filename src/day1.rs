@@ -1,7 +1,5 @@
 use std::collections::*;
 
-extern crate adventlib;
-
 pub fn solve() {
     println!("Day 1");
 
