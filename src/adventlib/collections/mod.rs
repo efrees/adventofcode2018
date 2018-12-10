@@ -1,7 +1,6 @@
 extern crate slab;
 
 use self::slab::Slab;
-use std::collections::*;
 
 pub struct CircleList<T> {
     nodes: Slab<CircleListNode<T>>,
@@ -15,14 +14,16 @@ struct CircleListNode<T> {
 }
 
 #[derive(Eq, PartialEq, Copy, Clone, Debug)]
-pub struct CircleListPointer {
-    key: usize,
-}
+pub struct CircleListPointer(usize);
 
 impl<T> CircleList<T> {
     pub fn new() -> CircleList<T> {
+        Self::with_capacity(0)
+    }
+
+    pub fn with_capacity(capacity: usize) -> CircleList<T> {
         CircleList::<T> {
-            nodes: Slab::new(),
+            nodes: Slab::with_capacity(capacity),
             last: Option::None,
         }
     }
@@ -37,15 +38,15 @@ impl<T> CircleList<T> {
                     next_key: next_key,
                     prev_key: next_key,
                 });
-                self.last = Some(CircleListPointer { key: next_key });
+                self.last = Some(CircleListPointer(next_key));
             }
             Some(cur_ptr) => self.insert_after(cur_ptr, value),
         };
     }
 
     pub fn insert_after(&mut self, cur_ptr: CircleListPointer, value: T) {
-        let next_key = self.nodes[cur_ptr.key].next_key;
-        let prev_key = cur_ptr.key;
+        let next_key = self.nodes[cur_ptr.0].next_key;
+        let prev_key = cur_ptr.0;
         let new_key = self.nodes.insert(CircleListNode {
             value,
             next_key: next_key,
@@ -54,32 +55,25 @@ impl<T> CircleList<T> {
 
         self.nodes[next_key].prev_key = new_key;
         self.nodes[prev_key].next_key = new_key;
-        self.last = Some(CircleListPointer { key: new_key });
+        self.last = Some(CircleListPointer(new_key));
     }
 
     pub fn next_node(&self, cur_ptr: CircleListPointer) -> CircleListPointer {
-        let cur_node = &self.nodes[cur_ptr.key];
-        return CircleListPointer {
-            key: cur_node.next_key,
-        };
+        let cur_node = &self.nodes[cur_ptr.0];
+        CircleListPointer(cur_node.next_key)
     }
 
     pub fn prev_node(&self, cur_ptr: CircleListPointer) -> CircleListPointer {
-        let cur_node = &self.nodes[cur_ptr.key];
-
-        return CircleListPointer {
-            key: cur_node.prev_key,
-        };
+        let cur_node = &self.nodes[cur_ptr.0];
+        CircleListPointer(cur_node.prev_key)
     }
 
     pub fn remove(&mut self, cur_ptr: CircleListPointer) -> T {
-        let rem_node = self.nodes.remove(cur_ptr.key);
+        let rem_node = self.nodes.remove(cur_ptr.0);
         if rem_node.prev_key != rem_node.next_key {
             self.nodes[rem_node.next_key].prev_key = rem_node.prev_key;
             self.nodes[rem_node.prev_key].next_key = rem_node.next_key;
-            self.last = Some(CircleListPointer {
-                key: rem_node.next_key,
-            });
+            self.last = Some(CircleListPointer(rem_node.next_key));
         } else {
             self.last = None;
         }
@@ -93,7 +87,7 @@ where
     T: Copy,
 {
     pub fn get_value(&self, cur_ptr: CircleListPointer) -> Option<T> {
-        return match self.nodes.get(cur_ptr.key) {
+        return match self.nodes.get(cur_ptr.0) {
             Some(node) => Some(node.value),
             None => None,
         };

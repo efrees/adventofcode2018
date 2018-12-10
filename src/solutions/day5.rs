@@ -42,7 +42,7 @@ pub fn solve() {
 fn react_string(line: &str, uppercase_map: &HashMap<char, char>) -> String {
     let mut replaced_one = true;
     let mut current_string = line.to_string();
-    let mut new_string = String::new();
+    let mut new_string = String::with_capacity(current_string.len()/2);
 
     while replaced_one {
         replaced_one = false;
@@ -70,7 +70,7 @@ fn react_string(line: &str, uppercase_map: &HashMap<char, char>) -> String {
             }
         }
         current_string = new_string;
-        new_string = String::new();
+        new_string = String::with_capacity(current_string.len()/2);
     }
 
     return current_string;

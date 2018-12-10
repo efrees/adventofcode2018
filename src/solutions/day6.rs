@@ -18,44 +18,7 @@ impl Clone for FillPoint {
 }
 
 impl FillPoint {
-    fn neighbors(&self) -> Vec<Self> {
-        let mut neighbors = vec![
-            FillPoint {
-                x: self.x + 1,
-                y: self.y,
-                d: self.d + 1,
-                seed_id: self.seed_id,
-            },
-            FillPoint {
-                x: self.x,
-                y: self.y + 1,
-                d: self.d + 1,
-                seed_id: self.seed_id,
-            },
-        ];
-        if self.x > 0 {
-            neighbors.push(FillPoint {
-                x: self.x - 1,
-                y: self.y,
-                d: self.d + 1,
-                seed_id: self.seed_id,
-            });
-        }
-        if self.y > 0 {
-            neighbors.push(FillPoint {
-                x: self.x,
-                y: self.y - 1,
-                d: self.d + 1,
-                seed_id: self.seed_id,
-            });
-        }
-        return neighbors;
-    }
-
-    fn is_in_boundaries(&self, max_x: u16, max_y: u16) -> bool {
-        return self.x <= max_x && self.y <= max_y;
-    }
-
+    #[inline]
     fn dist_to(&self, other_x: u16, other_y: u16) -> u16 {
         return ((self.x as i32 - other_x as i32).abs() + (self.y as i32 - other_y as i32).abs())
             as u16;
@@ -127,7 +90,7 @@ pub fn solve() {
     let total_distance_thresh = 10_000;
     let points_in_common_region = grid
         .iter()
-        .map(|(coords, set): (&(u16, u16), &HashSet<(u16, u16)>)| {
+        .map(|(_coords, set): (&(u16, u16), &HashSet<(u16, u16)>)| {
             set.iter().map(|(_id, d)| *d as u32).sum()
         }).filter(|d: &u32| *d < total_distance_thresh)
         .count();

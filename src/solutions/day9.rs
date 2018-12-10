@@ -15,10 +15,9 @@ fn day9_test_input() -> (u32, u32) {
 pub fn solve() {
     println!("Day 9");
 
-    // My given values
     let (num_players, mut last_marble_val) = day9_input();
 
-    let mut circle = CircleList::new();
+    let mut circle = CircleList::with_capacity((last_marble_val/2) as usize);
     circle.insert(0);
 
     let mut cur_player = 0;
@@ -27,7 +26,7 @@ pub fn solve() {
     let mut scores = HashMap::<u32, u32>::new();
     let mut turn_score;
 
-    for _part in 1..=2 {
+    for part in 1..=2 {
         while next_marble_value <= last_marble_val {
             if next_marble_value % 23 == 0 {
                 let mut search_marble = current_marble;
@@ -51,7 +50,7 @@ pub fn solve() {
             next_marble_value += 1;
             cur_player = (cur_player + 1) % num_players;
         }
-        println!("High score: {}", scores.values().max().unwrap());
+        println!("High score (part {}): {}", part, scores.values().max().unwrap());
 
         last_marble_val *= 100;
     }
