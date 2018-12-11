@@ -17,7 +17,7 @@ pub fn solve() {
 
     let (num_players, mut last_marble_val) = day9_input();
 
-    let mut circle = CircleList::with_capacity((last_marble_val/2) as usize);
+    let mut circle = CircleList::with_capacity((last_marble_val / 2) as usize);
     circle.insert(0);
 
     let mut cur_player = 0;
@@ -50,7 +50,12 @@ pub fn solve() {
             next_marble_value += 1;
             cur_player = (cur_player + 1) % num_players;
         }
-        println!("High score (part {}): {}", part, scores.values().max().unwrap());
+
+        println!(
+            "High score (part {}): {}",
+            part,
+            scores.values().max().unwrap()
+        );
 
         last_marble_val *= 100;
     }

@@ -18,12 +18,13 @@ fn solve_all() {
     time(&day2::solve);
     time(&day3::solve);
     time(&day4::solve);
-    time(&day5::solve);
-    time(&day6::solve);
-    time(&day7::solve);
-    time(&day8::solve);
-    time(&day9::solve);
+    // time(&day5::solve);
+    // time(&day6::solve);
+    // time(&day7::solve);
+    // time(&day8::solve);
+    // time(&day9::solve);
     time(&day10::solve);
+    time(&day11::solve);
 }
 
 fn time(f: &Fn()) {
