@@ -1,6 +1,3 @@
-use regex::Regex;
-use std::collections::*;
-
 pub fn solve() {
     println!("Day 11");
 

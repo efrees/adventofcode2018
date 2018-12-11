@@ -32,30 +32,35 @@ pub fn solve() {
 fn react_string(line: Vec<u8>) -> Vec<u8> {
     let mut replaced_one = true;
     let mut cur_string = line;
-    let mut new_string = Vec::with_capacity(cur_string.len() / 2);
+    let mut cur_len = cur_string.len();
+    let mut next_len = 0;
 
     while replaced_one {
         replaced_one = false;
         let mut skip_one = false;
-        for i in 0..cur_string.len() {
+        let mut copy_to = 0;
+        for i in 0..cur_len {
             if skip_one {
                 skip_one = false;
                 continue;
             }
-
-            if i == cur_string.len() - 1 {
-                new_string.push(cur_string[i]);
-            } else if (cur_string[i] as i16 - cur_string[i + 1] as i16).abs() == 32 {
+            let cur_val = cur_string[i];
+            if i + 1 < cur_len && (cur_val as i16 - cur_string[i + 1] as i16).abs() == 32 {
                 skip_one = true;
                 replaced_one = true;
-            } else {
-                new_string.push(cur_string[i]);
+                continue;
             }
+
+            if copy_to < i {
+                cur_string[copy_to] = cur_val;
+            }
+            copy_to += 1;
+            next_len = copy_to;
         }
 
-        cur_string = new_string;
-        new_string = Vec::with_capacity(cur_string.len() / 2);
+        cur_len = next_len;
     }
 
+    cur_string.truncate(cur_len);
     return cur_string;
 }
