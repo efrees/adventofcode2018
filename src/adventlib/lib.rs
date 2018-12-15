@@ -2,6 +2,7 @@ use std::fs::File;
 use std::io::Read;
 
 pub mod collections;
+pub mod grid;
 
 pub fn read_input_raw(filename: &str) -> String {
     let filename = "inputs/".to_owned() + filename;
