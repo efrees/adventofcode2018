@@ -1,47 +1,47 @@
 Day 1
 Total: 500
 First repeated: 709
-Solved in 0.025003348s
+Solved in 0.111933648s
 
 Day 2
 Checksum: 7657
 Match without difference: ivjhcadokeltwgsfsmqwrbnuy
-Solved in 0.001304476s
+Solved in 0.007223574s
 
 Day 3
 Total overlap: 121163
 Non-overlapping id: 943
-Solved in 0.015834638s
+Solved in 0.062176650s
 
 Day 4
 Answer (strategy 1): 140932
 Answer (strategy 2): 51232
-Solved in 0.002188901s
+Solved in 0.009787546s
 
 Day 5
 Final length (part 1): 9686
 Best Length (part 2): 5524
-Solved in 0.055750826s
+Solved in 0.232831938s
 
 Day 6
 Max finite fill: 4589
 Points in common region: 40252
-Solved in 0.856336914s
+Solved in 1.288699207s
 
 Day 7
 Sorted elements: FHMEQGIRSXNWZBCLOTUADJPKVY
 Elapsed seconds: 917
-Solved in 0.000417075s
+Solved in 0.000545406s
 
 Day 8
 Total of metadata: 45618
 Root node value: 22306
-Solved in 0.001008786s
+Solved in 0.000874502s
 
 Day 9
 High score (part 1): 404502
 High score (part 2): 3243916887
-Solved in 0.589957118s
+Solved in 0.570258520s
 
 Day 10
 ######..#....#....##....######..#####...######..#....#..#####.
@@ -55,17 +55,22 @@ Day 10
 #.......#....#..#....#..#.......#.......#.......#....#..#.....
 ######..#....#..#....#..######..#.......######..#....#..#.....
 Convergence took 10136 steps
-Solved in 0.005975984s
+Solved in 0.006052389s
 
 Day 11
 Best 3x3 at 243,17
 Best of any size at 233,228,12
-Solved in 0.497451739s
+Solved in 0.554128848s
 
 Day 12
 Sum of locations after step 20: 3230 (51)
 Sum of locations after step 50000000000: 4400000000304 (88)
-Solved in 0.001658709s
+Solved in 0.001219805s
 
-Total time:  2.053008581s
+Day 13
+First collision at 139,65
+Last cart at 40,77
+Solved in 0.006519408s
+
+Total time:  2.852495539s
 

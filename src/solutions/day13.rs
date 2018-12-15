@@ -9,31 +9,41 @@ pub fn solve() {
     let mut carts = initiate_carts(&lines);
     let mut occupied_positions: HashSet<Point> = carts.iter().map(|c| c.position).collect();
 
-    let mut collision_location = Point::new(-1, -1);
     let mut collision_happened = false;
-    while !collision_happened {
-        carts.sort_unstable_by_key(|c| c.position);
+    while carts.len() > 1 {
+        carts.sort_unstable_by_key(|c| (c.position.y, c.position.x));
 
-        //move each cart by rules, checking for collision
-        for mut cart in carts.iter_mut() {
-            occupied_positions.remove(&cart.position);
-
-            move_cart_on_grid(&mut cart, &grid);
-
-            //capture collision location when it happens
-            if occupied_positions.contains(&cart.position) {
-                collision_happened = true;
-                collision_location = cart.position;
-                break;
+        for cart_index in 0..carts.len() {
+            if carts[cart_index].crashed {
+                continue; // virtually removed already
             }
 
-            occupied_positions.insert(cart.position);
+            occupied_positions.remove(&carts[cart_index].position);
+
+            move_cart_on_grid(&mut carts[cart_index], &grid);
+
+            let new_position = carts[cart_index].position;
+            if occupied_positions.contains(&new_position) {
+                if !collision_happened {
+                    collision_happened = true;
+                    println!("First collision at {},{}", new_position.x, new_position.y);
+                }
+                carts
+                    .iter_mut()
+                    .filter(|c| c.position == new_position)
+                    .for_each(|c| c.crashed = true);
+                occupied_positions.remove(&new_position);
+            } else {
+                occupied_positions.insert(new_position);
+            }
         }
+
+        carts.retain(|c| !c.crashed);
     }
 
     println!(
-        "First collision at {},{}",
-        collision_location.x, collision_location.y
+        "Last cart at {},{}",
+        carts[0].position.x, carts[0].position.y
     );
 }
 
@@ -67,24 +77,28 @@ fn initiate_carts(lines: &Vec<String>) -> Vec<Cart> {
         for byte in line.as_bytes() {
             match byte {
                 b'^' => carts.push(Cart {
-                    intersectionCount: 0,
+                    intersection_count: 0,
                     direction: Direction::Up,
                     position: Point::new(x, y),
+                    crashed: false,
                 }),
                 b'v' => carts.push(Cart {
-                    intersectionCount: 0,
+                    intersection_count: 0,
                     direction: Direction::Down,
                     position: Point::new(x, y),
+                    crashed: false,
                 }),
                 b'<' => carts.push(Cart {
-                    intersectionCount: 0,
+                    intersection_count: 0,
                     direction: Direction::Left,
                     position: Point::new(x, y),
+                    crashed: false,
                 }),
                 b'>' => carts.push(Cart {
-                    intersectionCount: 0,
+                    intersection_count: 0,
                     direction: Direction::Right,
                     position: Point::new(x, y),
+                    crashed: false,
                 }),
                 _ => (),
             }
@@ -108,19 +122,19 @@ fn move_cart_on_grid(cart: &mut Cart, grid: &Vec<Vec<RailType>>) {
         RailType::Horizontal => (),
         RailType::Corner(c) => cart.direction = cart.direction.turn_corner(c),
         RailType::Intersection => {
-            match cart.intersectionCount % 3 {
+            match cart.intersection_count % 3 {
                 0 => cart.direction = cart.direction.turn_left(),
                 2 => cart.direction = cart.direction.turn_right(),
                 _ => (),
             };
-            cart.intersectionCount += 1;
+            cart.intersection_count += 1;
         }
         _ => println!("Off track at {},{}", new_location.x, new_location.y),
     }
     cart.position = new_location;
 }
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Clone, Copy)]
 enum Direction {
     Up,
     Down,
@@ -182,7 +196,8 @@ impl Direction {
 struct Cart {
     position: Point,
     direction: Direction,
-    intersectionCount: u32,
+    intersection_count: u32,
+    crashed: bool,
 }
 
 enum RailType {
