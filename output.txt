@@ -1,47 +1,47 @@
 Day 1
 Total: 500
 First repeated: 709
-Solved in 0.021500386s
+Solved in 0.020546504s
 
 Day 2
 Checksum: 7657
 Match without difference: ivjhcadokeltwgsfsmqwrbnuy
-Solved in 0.001536994s
+Solved in 0.001364342s
 
 Day 3
 Total overlap: 121163
 Non-overlapping id: 943
-Solved in 0.014541412s
+Solved in 0.014081670s
 
 Day 4
 Answer (strategy 1): 140932
 Answer (strategy 2): 51232
-Solved in 0.002503444s
+Solved in 0.002308963s
 
 Day 5
 Final length (part 1): 9686
 Best Length (part 2): 5524
-Solved in 0.056273098s
+Solved in 0.049690186s
 
 Day 6
 Max finite fill: 4589
 Points in common region: 40252
-Solved in 0.760925490s
+Solved in 2.804730647s
 
 Day 7
 Sorted elements: FHMEQGIRSXNWZBCLOTUADJPKVY
 Elapsed seconds: 917
-Solved in 0.000360517s
+Solved in 0.001307122s
 
 Day 8
 Total of metadata: 45618
 Root node value: 22306
-Solved in 0.000769323s
+Solved in 0.010962038s
 
 Day 9
 High score (part 1): 404502
 High score (part 2): 3243916887
-Solved in 0.508140081s
+Solved in 1.588127936s
 
 Day 10
 ######..#....#....##....######..#####...######..#....#..#####.
@@ -55,27 +55,38 @@ Day 10
 #.......#....#..#....#..#.......#.......#.......#....#..#.....
 ######..#....#..#....#..######..#.......######..#....#..#.....
 Convergence took 10136 steps
-Solved in 0.006341133s
+Solved in 0.034974800s
 
 Day 11
 Best 3x3 at 243,17
 Best of any size at 233,228,12
-Solved in 0.475905873s
+Solved in 0.842889244s
 
 Day 12
 Sum of locations after step 20: 3230 (51)
 Sum of locations after step 50000000000: 4400000000304 (88)
-Solved in 0.001323660s
+Solved in 0.001211536s
 
 Day 13
 First collision at 139,65
 Last cart at 40,77
-Solved in 0.010570100s
+Solved in 0.007178592s
 
 Day 14
 Next ten: 9276422810
 Count before match: 20319117
-Solved in 0.375830264s
+Solved in 0.348217291s
 
-Total time:  2.236675581s
+Day 16
+Samples matching 3: 646
+Register zero: 681
+Solved in 0.003547621s
+
+Day 17
+Debug: max y: 1739, min y: 7
+Total squares touched: 32552
+Total squares retained: 26405
+Solved in 0.012189120s
+
+Total time:  5.743779093s
 

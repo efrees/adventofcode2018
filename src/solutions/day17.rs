@@ -49,8 +49,10 @@ pub fn solve() {
     let total_reached = flood_down(&mut grid, (500, 0), min_y, max_y);
 
     // print_grid(&grid, (300, min_y), (700, max_y));
-
     println!("Total squares touched: {}", total_reached);
+
+    let total_retained = grid.values().filter(|&&x| x == WATER).count();
+    println!("Total squares retained: {}", total_retained);
 }
 
 fn parse_bounds(specifier: &str) -> (u32, u32) {
