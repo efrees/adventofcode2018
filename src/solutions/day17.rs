@@ -6,7 +6,6 @@ static TOUCHED: u8 = 1;
 static WATER: u8 = 2;
 static CLAY: u8 = 3;
 
-// between ~31025 and 32558
 pub fn solve() {
     println!("Day 17");
 
@@ -43,8 +42,6 @@ pub fn solve() {
             }
         }
     }
-
-    println!("Debug: max y: {}, min y: {}", max_y, min_y);
 
     let total_reached = flood_down(&mut grid, (500, 0), min_y, max_y);
 
