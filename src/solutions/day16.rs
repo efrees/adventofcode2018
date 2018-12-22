@@ -60,7 +60,7 @@ pub fn solve() {
                 for pair in possible_opcodes
                     .iter()
                     .enumerate()
-                    .filter(|&(i, set)| set.len() == 1)
+                    .filter(|&(_i, set)| set.len() == 1)
                 {
                     actual_opcodes.insert(*pair.1.iter().next().unwrap(), pair.0);
                 }

@@ -22,7 +22,8 @@ pub fn solve() {
         .map(|caps| PointWithVelocity {
             point: Point(caps[1].parse().unwrap(), caps[2].parse().unwrap()),
             velocity: Point(caps[3].parse().unwrap(), caps[4].parse().unwrap()),
-        }).collect();
+        })
+        .collect();
 
     let mut prev_min_x = -999999;
     let mut prev_min_y = -999999;
@@ -92,7 +93,7 @@ fn print_point_section(
             if xs_set.contains(&i) {
                 out_line.push('#');
             } else {
-                out_line.push('.');
+                out_line.push(' ');
             }
         }
         println!("{}", out_line);

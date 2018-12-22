@@ -1,92 +1,96 @@
 Day 1
 Total: 500
 First repeated: 709
-Solved in 0.020546504s
+Solved in 0.025972453s
 
 Day 2
 Checksum: 7657
 Match without difference: ivjhcadokeltwgsfsmqwrbnuy
-Solved in 0.001364342s
+Solved in 0.001346482s
 
 Day 3
 Total overlap: 121163
 Non-overlapping id: 943
-Solved in 0.014081670s
+Solved in 0.015819429s
 
 Day 4
 Answer (strategy 1): 140932
 Answer (strategy 2): 51232
-Solved in 0.002308963s
+Solved in 0.002015258s
 
 Day 5
 Final length (part 1): 9686
 Best Length (part 2): 5524
-Solved in 0.049690186s
+Solved in 0.059268368s
 
 Day 6
 Max finite fill: 4589
 Points in common region: 40252
-Solved in 2.804730647s
+Solved in 0.799281876s
 
 Day 7
 Sorted elements: FHMEQGIRSXNWZBCLOTUADJPKVY
 Elapsed seconds: 917
-Solved in 0.001307122s
+Solved in 0.000422698s
 
 Day 8
 Total of metadata: 45618
 Root node value: 22306
-Solved in 0.010962038s
+Solved in 0.000869871s
 
 Day 9
 High score (part 1): 404502
 High score (part 2): 3243916887
-Solved in 1.588127936s
+Solved in 0.518909954s
 
 Day 10
-######..#....#....##....######..#####...######..#....#..#####.
-#.......#....#...#..#........#..#....#.......#..#....#..#....#
-#.......#....#..#....#.......#..#....#.......#..#....#..#....#
-#.......#....#..#....#......#...#....#......#...#....#..#....#
-#####...######..#....#.....#....#####......#....######..#####.
-#.......#....#..######....#.....#.........#.....#....#..#.....
-#.......#....#..#....#...#......#........#......#....#..#.....
-#.......#....#..#....#..#.......#.......#.......#....#..#.....
-#.......#....#..#....#..#.......#.......#.......#....#..#.....
-######..#....#..#....#..######..#.......######..#....#..#.....
+######  #    #    ##    ######  #####   ######  #    #  ##### 
+#       #    #   #  #        #  #    #       #  #    #  #    #
+#       #    #  #    #       #  #    #       #  #    #  #    #
+#       #    #  #    #      #   #    #      #   #    #  #    #
+#####   ######  #    #     #    #####      #    ######  ##### 
+#       #    #  ######    #     #         #     #    #  #     
+#       #    #  #    #   #      #        #      #    #  #     
+#       #    #  #    #  #       #       #       #    #  #     
+#       #    #  #    #  #       #       #       #    #  #     
+######  #    #  #    #  ######  #       ######  #    #  #     
 Convergence took 10136 steps
-Solved in 0.034974800s
+Solved in 0.005473577s
 
 Day 11
 Best 3x3 at 243,17
 Best of any size at 233,228,12
-Solved in 0.842889244s
+Solved in 0.553228547s
 
 Day 12
 Sum of locations after step 20: 3230 (51)
 Sum of locations after step 50000000000: 4400000000304 (88)
-Solved in 0.001211536s
+Solved in 0.001766203s
 
 Day 13
 First collision at 139,65
 Last cart at 40,77
-Solved in 0.007178592s
+Solved in 0.009458119s
 
 Day 14
 Next ten: 9276422810
 Count before match: 20319117
-Solved in 0.348217291s
+Solved in 0.367193396s
 
 Day 16
 Samples matching 3: 646
 Register zero: 681
-Solved in 0.003547621s
+Solved in 0.003325357s
 
 Day 17
-Debug: max y: 1739, min y: 7
 Total squares touched: 32552
 Total squares retained: 26405
-Solved in 0.012189120s
+Solved in 0.016012256s
 
-Total time:  5.743779093s
+Day 18
+Resource value after 10: 549936
+Resource value after 1000000000: 206304
+Solved in 0.122699222s
+
+Total time:  2.503249285s
 

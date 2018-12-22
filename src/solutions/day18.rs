@@ -1,4 +1,5 @@
 use adventlib::grid::*;
+use std::collections::HashMap;
 
 static OPEN: u8 = 0;
 static TREES: u8 = 1;
@@ -19,7 +20,34 @@ pub fn solve() {
         next_grid = temp;
     }
 
-    println!("Resource value after 10: {}", compute_resource_value(&grid))
+    println!("Resource value after 10: {}", compute_resource_value(&grid));
+
+    let mut seen = HashMap::new();
+    let target_minutes = 1_000_000_000;
+    let mut count = 10;
+    while count < target_minutes {
+        compute_next_step(&grid, &mut next_grid);
+        let string_rep = grid_to_string(&next_grid);
+        if seen.contains_key(&string_rep) {
+            let first_minute = seen.get(&string_rep).expect("Get of confirmed key");
+            let step_size = count - first_minute;
+            let remainder = (target_minutes - count) % step_size;
+            count = target_minutes - remainder;
+        }
+        seen.insert(string_rep, count);
+
+        let temp = grid;
+        grid = next_grid;
+        next_grid = temp;
+
+        count += 1;
+    }
+
+    println!(
+        "Resource value after {}: {}",
+        target_minutes,
+        compute_resource_value(&grid)
+    );
 }
 
 fn lines_to_byte_grid(lines: &Vec<String>) -> Vec<Vec<u8>> {
@@ -105,4 +133,18 @@ fn compute_resource_value(grid: &Vec<Vec<u8>>) -> u32 {
     }
 
     return wood_count * yard_count;
+}
+
+fn grid_to_string(grid: &Vec<Vec<u8>>) -> String {
+    let mut string = String::with_capacity(2500);
+    for i in 0..grid.len() {
+        for j in 0..grid[i].len() {
+            string.push(match grid[i][j] {
+                1 => '|',
+                2 => '#',
+                _ => '.',
+            });
+        }
+    }
+    return string;
 }

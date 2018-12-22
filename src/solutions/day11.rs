@@ -92,6 +92,7 @@ fn power_level(x: i32, y: i32, serial_number: i32) -> i32 {
     return power_level;
 }
 
+#[allow(unused)]
 fn print_grid(grid: &Vec<Vec<i32>>) {
     println!("----------");
     for i in 0..grid.len() {
