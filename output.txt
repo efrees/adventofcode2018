@@ -1,47 +1,47 @@
 Day 1
 Total: 500
 First repeated: 709
-Solved in 0.025972453s
+Solved in 0.034978692s
 
 Day 2
 Checksum: 7657
 Match without difference: ivjhcadokeltwgsfsmqwrbnuy
-Solved in 0.001346482s
+Solved in 0.006335713s
 
 Day 3
 Total overlap: 121163
 Non-overlapping id: 943
-Solved in 0.015819429s
+Solved in 0.032530764s
 
 Day 4
 Answer (strategy 1): 140932
 Answer (strategy 2): 51232
-Solved in 0.002015258s
+Solved in 0.007070149s
 
 Day 5
 Final length (part 1): 9686
 Best Length (part 2): 5524
-Solved in 0.059268368s
+Solved in 0.062035609s
 
 Day 6
 Max finite fill: 4589
 Points in common region: 40252
-Solved in 0.799281876s
+Solved in 0.843537395s
 
 Day 7
 Sorted elements: FHMEQGIRSXNWZBCLOTUADJPKVY
 Elapsed seconds: 917
-Solved in 0.000422698s
+Solved in 0.006233882s
 
 Day 8
 Total of metadata: 45618
 Root node value: 22306
-Solved in 0.000869871s
+Solved in 0.028422818s
 
 Day 9
 High score (part 1): 404502
 High score (part 2): 3243916887
-Solved in 0.518909954s
+Solved in 0.732407827s
 
 Day 10
 ######  #    #    ##    ######  #####   ######  #    #  ##### 
@@ -55,42 +55,47 @@ Day 10
 #       #    #  #    #  #       #       #       #    #  #     
 ######  #    #  #    #  ######  #       ######  #    #  #     
 Convergence took 10136 steps
-Solved in 0.005473577s
+Solved in 0.015265560s
 
 Day 11
 Best 3x3 at 243,17
 Best of any size at 233,228,12
-Solved in 0.553228547s
+Solved in 0.562431271s
 
 Day 12
 Sum of locations after step 20: 3230 (51)
 Sum of locations after step 50000000000: 4400000000304 (88)
-Solved in 0.001766203s
+Solved in 0.010934041s
 
 Day 13
 First collision at 139,65
 Last cart at 40,77
-Solved in 0.009458119s
+Solved in 0.023720384s
 
 Day 14
 Next ten: 9276422810
 Count before match: 20319117
-Solved in 0.367193396s
+Solved in 0.383232459s
+
+Day 15
+Full round count: 66
+Outcome: 184206
+Solved in 0.097158799s
 
 Day 16
 Samples matching 3: 646
 Register zero: 681
-Solved in 0.003325357s
+Solved in 0.017666839s
 
 Day 17
 Total squares touched: 32552
 Total squares retained: 26405
-Solved in 0.016012256s
+Solved in 0.025845183s
 
 Day 18
 Resource value after 10: 549936
 Resource value after 1000000000: 206304
-Solved in 0.122699222s
+Solved in 0.107567756s
 
-Total time:  2.503249285s
+Total time:  2.997548089s
 

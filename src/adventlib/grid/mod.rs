@@ -9,6 +9,15 @@ impl Point {
         Point { x: x, y: y }
     }
 
+    pub fn neighbors4(&self) -> Vec<Point> {
+        vec![
+            Point::new(self.x - 1, self.y),
+            Point::new(self.x, self.y - 1),
+            Point::new(self.x + 1, self.y),
+            Point::new(self.x, self.y + 1),
+        ]
+    }
+
     pub fn neighbors8(&self) -> Vec<Point> {
         vec![
             Point::new(self.x - 1, self.y - 1),
@@ -20,5 +29,9 @@ impl Point {
             Point::new(self.x - 1, self.y + 1),
             Point::new(self.x - 1, self.y),
         ]
+    }
+
+    pub fn manhattan_dist_to(&self, other: &Point) -> i64 {
+        (self.x - other.x).abs() + (self.y - other.y).abs()
     }
 }
