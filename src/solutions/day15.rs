@@ -7,35 +7,44 @@ pub fn solve() {
     let lines = adventlib::read_input_lines("day15input.txt");
 
     let grid = parse_grid(&lines);
-    let mut units = parse_units(&lines);
 
-    let mut battle_ongoing = true;
-    let mut last_completed_round = 0;
-    while battle_ongoing {
-        // print_battlefield(&grid, &units);
+    // Part 1
+    let mut elf_power = 3;
+    let mut units = parse_units(&lines, elf_power);
+    let starting_elf_count = units.values().filter(|u| u.team == BattleTeam::Elf).count();
 
-        let mut turn_order: Vec<_> = units.keys().cloned().collect();
-        turn_order.sort_by_key(|u| (u.y, u.x));
-        for unit_pos in turn_order.iter() {
-            if !units.contains_key(unit_pos) {
-                continue; // unit was already killed
-            }
+    let last_completed_round = fight_battle(&grid, &mut units);
 
-            if !has_targets(unit_pos, &units) {
-                battle_ongoing = false;
-                break;
-            }
-            take_turn(unit_pos, &grid, &mut units);
+    let remaining_hit_points: u32 = units.values().map(|u| u.hit_points as u32).sum();
+    println!("Original Outcome: {}", remaining_hit_points * last_completed_round);
+
+    // Part 2
+    let mut lower_bound_pow = elf_power;
+    let mut upper_bound_pow = 200;
+    let mut hit_points_for_win = 0;
+    let mut rounds_for_win = 0;
+    loop {
+        let power_range = upper_bound_pow - lower_bound_pow;
+        if power_range == 1 {
+            // upper_bound is the last (and therefore lowest) success
+            break;
         }
+        elf_power = lower_bound_pow + power_range / 2;
 
-        if battle_ongoing {
-            last_completed_round += 1;
+        units = parse_units(&lines, elf_power);
+        let last_completed_round = fight_battle(&grid, &mut units);
+        let elf_count = units.values().filter(|u| u.team == BattleTeam::Elf).count();
+        if elf_count == starting_elf_count {
+            hit_points_for_win = units.values().map(|u| u.hit_points as u32).sum();
+            rounds_for_win = last_completed_round;
+
+            upper_bound_pow = elf_power;
+        } else {
+            lower_bound_pow = elf_power;
         }
     }
 
-    println!("Full round count: {}", last_completed_round);
-    let remaining_hit_points: u32 = units.values().map(|u| u.hit_points as u32).sum();
-    println!("Outcome: {}", remaining_hit_points * last_completed_round);
+    println!("Winning Outcome: {}", hit_points_for_win * rounds_for_win);
 }
 
 fn parse_grid(lines: &Vec<String>) -> Vec<Vec<CellType>> {
@@ -55,14 +64,14 @@ fn parse_grid(lines: &Vec<String>) -> Vec<Vec<CellType>> {
     return grid_rows;
 }
 
-fn parse_units(lines: &Vec<String>) -> HashMap<Point, BattleUnit> {
+fn parse_units(lines: &Vec<String>, elf_power: u8) -> HashMap<Point, BattleUnit> {
     let mut units = HashMap::new();
     let mut y = 0;
     for line in lines.iter() {
         for x in 0..line.len() {
             let loc = Point::new(x as i64, y as i64);
             match line.as_bytes()[x] {
-                b'E' => units.insert(loc, BattleUnit::new_elf(x as u32, y)),
+                b'E' => units.insert(loc, BattleUnit::new_elf(x as u32, y, elf_power)),
                 b'G' => units.insert(loc, BattleUnit::new_goblin(x as u32, y)),
                 _ => None,
             };
@@ -70,6 +79,33 @@ fn parse_units(lines: &Vec<String>) -> HashMap<Point, BattleUnit> {
         y += 1;
     }
     return units;
+}
+
+fn fight_battle(grid: &Vec<Vec<CellType>>, units: &mut HashMap<Point, BattleUnit>) -> u32 {
+    let mut battle_ongoing = true;
+    let mut last_completed_round = 0;
+    while battle_ongoing {
+        // print_battlefield(&grid, &units);
+
+        let mut turn_order: Vec<_> = units.keys().cloned().collect();
+        turn_order.sort_by_key(|u| (u.y, u.x));
+        for unit_pos in turn_order.iter() {
+            if !units.contains_key(unit_pos) {
+                continue; // unit was already killed
+            }
+
+            if !has_targets(unit_pos, units) {
+                battle_ongoing = false;
+                break;
+            }
+            take_turn(unit_pos, grid, units);
+        }
+
+        if battle_ongoing {
+            last_completed_round += 1;
+        }
+    }
+    return last_completed_round;
 }
 
 fn has_targets(unit_pos: &Point, units: &HashMap<Point, BattleUnit>) -> bool {
@@ -230,11 +266,12 @@ fn attack(unit_pos: &Point, units: &mut HashMap<Point, BattleUnit>) -> bool {
         }
     }
 
-    if units[attack_pos].hit_points <= 3 {
+    let attack_power = units[unit_pos].attack_power;
+    if units[attack_pos].hit_points <= attack_power {
         units.remove(attack_pos);
         kill_made = true;
     } else {
-        units.entry(*attack_pos).and_modify(|u| u.hit_points -= 3);
+        units.entry(*attack_pos).and_modify(|u| u.hit_points -= attack_power);
     }
 
     return kill_made;
@@ -276,23 +313,25 @@ enum BattleTeam {
 struct BattleUnit {
     team: BattleTeam,
     hit_points: u8,
+    attack_power: u8,
     position: Point,
 }
 
 impl BattleUnit {
-    fn new(team: BattleTeam, x: u32, y: u32) -> BattleUnit {
+    fn new(team: BattleTeam, x: u32, y: u32, power: u8) -> BattleUnit {
         BattleUnit {
             team: team,
             hit_points: 200,
+            attack_power: power,
             position: Point::new(x as i64, y as i64),
         }
     }
 
     fn new_goblin(x: u32, y: u32) -> BattleUnit {
-        BattleUnit::new(BattleTeam::Goblin, x, y)
+        BattleUnit::new(BattleTeam::Goblin, x, y, 3)
     }
 
-    fn new_elf(x: u32, y: u32) -> BattleUnit {
-        BattleUnit::new(BattleTeam::Elf, x, y)
+    fn new_elf(x: u32, y: u32, power: u8) -> BattleUnit {
+        BattleUnit::new(BattleTeam::Elf, x, y, power)
     }
 }
