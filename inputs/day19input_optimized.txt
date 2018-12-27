@@ -7,10 +7,10 @@ eqri 1 0 1
 addr 1 3 3
 addi 3 1 3
 addr 2 0 0
-addr 4 5 4
-gtrr 4 5 1
-addr 3 1 3
-seti 2 7 3
+setr 0 0 0
+setr 0 0 0
+setr 0 0 0
+setr 0 0 0
 addi 2 1 2
 gtrr 2 5 1
 addr 1 3 3

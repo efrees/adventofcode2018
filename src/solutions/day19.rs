@@ -50,10 +50,6 @@ impl WristComputer {
         while next_ip >= 0 && next_ip < program.len() as i32 {
             self.execute(&program[next_ip as usize]);
             next_ip = self.get_next_ip();
-
-            if next_ip == 7 {
-                println!("{}", self);
-            }
         }
     }
 
