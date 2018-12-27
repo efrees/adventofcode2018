@@ -1,0 +1,98 @@
+
+00: ip += 16
+01: c = 1
+02: e = 1
+03: b = c * e
+04: b = if b == f { 1 } else { 0 }
+05: ip += b
+06: ip += 1
+07: a += c
+08: e += 1
+09: b = if e > f { 1 } else {0}
+10: ip += b
+11: ip = 2
+12: c += 1
+13: b = if c > f {1} else {0}
+14: ip += b
+15: ip = 1
+16: ip *= ip //exit
+17: f += 2
+18: f *= f
+19: f *= ip // ip == 20
+20: f *= 11
+21: b += 3
+22: b *= ip //ip == 22
+23: b += 12
+24: f += b
+25: ip += a
+26: ip = 0
+27: b = ip
+28: b *= ip
+29: b += ip
+30: b *= ip
+31: b *= 14
+32: b *= ip
+33: f += b
+34: a = 9
+35: ip = 0
+
+
+
+============
+
+00: goto 17
+01: c = 1
+02: e = 1
+03: b = c * e // value not preserved after 'if'
+04: if b == f { a += c } // only relevant to output value
+
+
+08: e += 1
+09: if e <= f { goto 03 }
+
+12: c += 1
+13: if c <= f { goto 02 }
+
+16: exit
+//Initialization starts here
+17: f = (f+2)*(f+2)
+
+19: f *= 19 * 11
+
+21: b = (b+3) * 22 + 12
+24: f += b
+
+// Initialization that makes f much larger for part 2
+25: goto 26+a
+26: goto 01
+27: b = 27
+28: b *= 28
+29: b += 29
+30: b *= 30
+31: b *= 14
+32: b *= 32
+33: f += b
+34: a = 9
+35: ip = 0
+
+
+================
+
+//initialize f based on part
+f = 2*2 * 19 * 11
+f += 78
+if a == 1 {
+    b = 27*28 + 29
+    b *= 30 * 14 * 32
+    f += b
+    a = 9
+}
+
+c = 1
+while c <= f {
+    e = 1
+    if f % c == 0 {
+        a += c
+    }
+    c++
+} //c = f+1

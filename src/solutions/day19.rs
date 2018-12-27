@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use std::fmt::*;
 
 const CPU_SIZE: usize = 6;
@@ -6,7 +5,7 @@ const CPU_SIZE: usize = 6;
 pub fn solve() {
     println!("Day 19");
 
-    let lines = adventlib::read_input_lines("day19input.txt");
+    let lines = adventlib::read_input_lines("day19input_optimized.txt");
     let mut lines_iter = lines.iter();
 
     let ip_declaration = lines_iter.next().expect("First line");
@@ -21,10 +20,10 @@ pub fn solve() {
     computer.execute_program(&program);
     println!("Register 0 (part 1): {}", computer.regs[0]);
 
-    // let mut computer = WristComputer::new(ip_reg);
-    // computer.regs[0] = 1;
-    // computer.execute_program(&program);
-    // println!("Register 0 (part 2): {}", computer.regs[0]);
+    let mut computer = WristComputer::new(ip_reg);
+    computer.regs[0] = 1;
+    computer.execute_program(&program);
+    println!("Register 0 (part 2): {}", computer.regs[0]);
 }
 
 struct WristComputer {
@@ -51,6 +50,10 @@ impl WristComputer {
         while next_ip >= 0 && next_ip < program.len() as i32 {
             self.execute(&program[next_ip as usize]);
             next_ip = self.get_next_ip();
+
+            if next_ip == 7 {
+                println!("{}", self);
+            }
         }
     }
 
@@ -62,6 +65,8 @@ impl WristComputer {
             "addi" => self.addi(&instr.args),
             "mulr" => self.mulr(&instr.args),
             "muli" => self.muli(&instr.args),
+            "modr" => self.modr(&instr.args),
+            "modi" => self.modi(&instr.args),
             "banr" => self.banr(&instr.args),
             "bani" => self.bani(&instr.args),
             "borr" => self.borr(&instr.args),
@@ -94,9 +99,18 @@ impl WristComputer {
         self.regs[args[2] as usize] = self.regs[args[0] as usize] * args[1] as i32;
     }
 
+    fn modr(&mut self, args: &Vec<u8>) {
+        self.regs[args[2] as usize] = self.regs[args[0] as usize] % self.regs[args[1] as usize];
+    }
+
+    fn modi(&mut self, args: &Vec<u8>) {
+        self.regs[args[2] as usize] = self.regs[args[0] as usize] % args[1] as i32;
+    }
+
     fn banr(&mut self, args: &Vec<u8>) {
         self.regs[args[2] as usize] = self.regs[args[0] as usize] & self.regs[args[1] as usize];
     }
+
     fn bani(&mut self, args: &Vec<u8>) {
         self.regs[args[2] as usize] = self.regs[args[0] as usize] & args[1] as i32;
     }
