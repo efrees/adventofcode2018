@@ -134,64 +134,6 @@ fn move_cart_on_grid(cart: &mut Cart, grid: &Vec<Vec<RailType>>) {
     cart.position = new_location;
 }
 
-#[derive(PartialEq, Debug, Clone, Copy)]
-enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
-}
-
-impl Direction {
-    fn as_vector(&self) -> Point {
-        match self {
-            Direction::Up => Point::new(0, -1),
-            Direction::Down => Point::new(0, 1),
-            Direction::Left => Point::new(-1, 0),
-            Direction::Right => Point::new(1, 0),
-        }
-    }
-
-    fn is_horizontal(&self) -> bool {
-        *self == Direction::Left || *self == Direction::Right
-    }
-
-    fn is_vertical(&self) -> bool {
-        *self == Direction::Up || *self == Direction::Down
-    }
-
-    fn turn_corner(&self, c_type: char) -> Direction {
-        if self.is_vertical() {
-            return match c_type {
-                '/' => self.turn_right(),
-                _ => self.turn_left(),
-            };
-        }
-        return match c_type {
-            '/' => self.turn_left(),
-            _ => self.turn_right(),
-        };
-    }
-
-    fn turn_left(&self) -> Direction {
-        match self {
-            Direction::Up => Direction::Left,
-            Direction::Down => Direction::Right,
-            Direction::Left => Direction::Down,
-            Direction::Right => Direction::Up,
-        }
-    }
-
-    fn turn_right(&self) -> Direction {
-        match self {
-            Direction::Up => Direction::Right,
-            Direction::Down => Direction::Left,
-            Direction::Left => Direction::Up,
-            Direction::Right => Direction::Down,
-        }
-    }
-}
-
 #[derive(Debug)]
 struct Cart {
     position: Point,
