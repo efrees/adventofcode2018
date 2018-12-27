@@ -1,10 +1,10 @@
 use regex::Regex;
 use std::collections::*;
 
-static SAND: u8 = 0;
-static TOUCHED: u8 = 1;
-static WATER: u8 = 2;
-static CLAY: u8 = 3;
+const SAND: u8 = 0;
+const TOUCHED: u8 = 1;
+const WATER: u8 = 2;
+const CLAY: u8 = 3;
 
 pub fn solve() {
     println!("Day 17");

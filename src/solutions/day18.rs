@@ -1,9 +1,9 @@
 use adventlib::grid::*;
 use std::collections::HashMap;
 
-static OPEN: u8 = 0;
-static TREES: u8 = 1;
-static LUMBERYARD: u8 = 2;
+const OPEN: u8 = 0;
+const TREES: u8 = 1;
+const LUMBERYARD: u8 = 2;
 
 pub fn solve() {
     println!("Day 18");
