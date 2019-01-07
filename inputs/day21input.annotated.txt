@@ -1,0 +1,32 @@
+#ip 5
+seti 123 0 4       /:0/ e = 123                       //// test
+bani 4 456 4       /  / e = e & 456                   // while 123 & 456 != 72 {}
+eqri 4 72 4        /  / e = if e == 72 {1} else {0}
+addr 4 5 5         /  / ip += e
+seti 0 0 5         /  / ip = 0
+seti 0 3 4         /  / e = 0                         // e = 0
+bori 4 65536 1     /:6/ b = e | (1<<16)               // do { b = e | 0x10000
+seti 2024736 3 4   /:7/ e = 2024736                   // e = 2024736
+bani 1 255 2       /:8/ c = low order byte of b       // loop { c = low order byte of b
+addr 4 2 4         /  / e += c                        //   e += c
+bani 4 16777215 4  /  / e = low order 3 bytes of e    //   e = low order 3 bytes of e
+muli 4 65899 4     /  / e *= 65899                    //   e *= 65899
+bani 4 16777215 4  /  / e = low order 3 bytes of e    //   e = low order 3 bytes of e
+gtir 256 1 2       /  / c = if 256 > b {1} else {0}   //   if b < 256 {break /*to outer*/}
+addr 2 5 5         /  / ip += c
+addi 5 1 5         /  / ip += 1
+seti 27 7 5        /  / ip = 27
+seti 0 1 2         /17/ c = 0                         //   c = 0
+addi 2 1 3         /:x/ d = c + 1
+muli 3 256 3       /  / d *= 256
+gtrr 3 1 3         /20/ d = if d > b {1} else {0}     //   while 256*c + 256 <= b
+addr 3 5 5         /  / ip += d                       //   { c++ }
+addi 5 1 5         /  / ip += 1
+seti 25 2 5        /  / ip = 25
+addi 2 1 2         /  / c += 1
+seti 17 0 5        /25/ ip = 17
+setr 2 3 1         /:y/ b = c                         //   b = c
+seti 7 9 5         /  / ip = 7                        // } // end loop
+eqrr 4 0 2         /:z/ c = if e == a {1} else {0}
+addr 2 5 5         /  / ip += c
+seti 5 6 5         /  / ip = 5                        // } while e != a //end do-while
