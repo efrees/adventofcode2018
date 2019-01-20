@@ -1,47 +1,47 @@
 Day 1
 Total: 500
 First repeated: 709
-Solved in 0.061541743s
+Solved in 0.051249420s
 
 Day 2
 Checksum: 7657
 Match without difference: ivjhcadokeltwgsfsmqwrbnuy
-Solved in 0.010928340s
+Solved in 0.002723836s
 
 Day 3
 Total overlap: 121163
 Non-overlapping id: 943
-Solved in 0.036574383s
+Solved in 0.023301086s
 
 Day 4
 Answer (strategy 1): 140932
 Answer (strategy 2): 51232
-Solved in 0.013257936s
+Solved in 0.002614040s
 
 Day 5
 Final length (part 1): 9686
 Best Length (part 2): 5524
-Solved in 0.113189954s
+Solved in 0.062760301s
 
 Day 6
 Max finite fill: 4589
 Points in common region: 40252
-Solved in 1.210312234s
+Solved in 0.857335385s
 
 Day 7
 Sorted elements: FHMEQGIRSXNWZBCLOTUADJPKVY
 Elapsed seconds: 917
-Solved in 0.000593919s
+Solved in 0.000526221s
 
 Day 8
 Total of metadata: 45618
 Root node value: 22306
-Solved in 0.001138913s
+Solved in 0.000889172s
 
 Day 9
 High score (part 1): 404502
 High score (part 2): 3243916887
-Solved in 1.111553263s
+Solved in 0.569236239s
 
 Day 10
 ######  #    #    ##    ######  #####   ######  #    #  ##### 
@@ -55,57 +55,67 @@ Day 10
 #       #    #  #    #  #       #       #       #    #  #     
 ######  #    #  #    #  ######  #       ######  #    #  #     
 Convergence took 10136 steps
-Solved in 0.171815008s
+Solved in 0.005835653s
 
 Day 11
 Best 3x3 at 243,17
 Best of any size at 233,228,12
-Solved in 0.791101452s
+Solved in 0.564504228s
 
 Day 12
 Sum of locations after step 20: 3230 (51)
 Sum of locations after step 50000000000: 4400000000304 (88)
-Solved in 0.001856281s
+Solved in 0.003120920s
 
 Day 13
 First collision at 139,65
 Last cart at 40,77
-Solved in 0.013793829s
+Solved in 0.008531045s
 
 Day 14
 Next ten: 9276422810
 Count before match: 20319117
-Solved in 0.681248595s
+Solved in 0.422802172s
 
 Day 15
 Original Outcome: 184206
 Winning Outcome: 41804
-Solved in 0.562497760s
+Solved in 0.442646126s
 
 Day 16
 Samples matching 3: 646
 Register zero: 681
-Solved in 0.006632097s
+Solved in 0.003629505s
 
 Day 17
 Total squares touched: 32552
 Total squares retained: 26405
-Solved in 0.027672422s
+Solved in 0.020420806s
 
 Day 18
 Resource value after 10: 549936
 Resource value after 1000000000: 206304
-Solved in 0.143359796s
+Solved in 0.120882459s
 
 Day 19
 Register 0 (part 1): 1374
 Register 0 (part 2): 15826974
-Solved in 1.747257817s
+Solved in 1.239743659s
 
 Day 20
 Farthest room: 3872
 Rooms at least 1000 away: 8600
-Solved in 0.017041042s
+Solved in 0.003506626s
 
-Total time:  6.723668873s
+Day 21
+Halting input (lower bound): 7129803
+Halting input (upper bound): 12284643
+Solved in 0.283763080s
+
+Day 22
+Risk level: 5400
+Search minutes: 1048
+Solved in 0.279452615s
+
+Total time:  4.969921180s
 

@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 
 pub fn solve() {
+    println!("Day 21");
     let mut halting_values = HashSet::new();
     let mut e: u64 = 0;
     loop {

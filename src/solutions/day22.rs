@@ -13,12 +13,13 @@ fn input() -> (u32, Coords) {
     (4845, (6, 770))
 }
 
-const y0_root: usize = 16807;
-const x0_root: usize = 48271;
-const erosion_mod: u32 = 20183;
+const Y0_ROOT: usize = 16807;
+const X0_ROOT: usize = 48271;
+const EROSION_MOD: u32 = 20183;
 
 pub fn solve() {
-    let input_params = test_input();
+    println!("Day 22");
+    let input_params = input();
     let target_coords = input_params.1;
 
     let mut risk_level = 0;
@@ -33,7 +34,7 @@ pub fn solve() {
 
     println!("Risk level: {}", risk_level);
 
-    let mut least_cost = HashMap::new();
+    let mut already_searched_cost = HashMap::new();
     let mut search_front = BinaryHeap::new();
     search_front.push(SearchState {
         cost: 0,
@@ -44,12 +45,17 @@ pub fn solve() {
 
     let tools = vec![0u8, 1, 2]; // neither, torch, climbing
     let mut state = search_front.pop().expect("Just added one");
-    while state.position != target_coords {
-        println!("Debug searching at {:?}, {}", state.position, state.cost);
+    while state.position != target_coords || state.tool != 1 {
+        // println!(
+        //     "Debug searching at {:?}, {}, {}",
+        //     state.position, state.cost, state.tool
+        // );
 
-        if !least_cost.contains_key(&state.position) || least_cost[&state.position] > state.cost {
-            least_cost
-                .entry(state.position)
+        if !already_searched_cost.contains_key(&(state.position, state.tool))
+            || already_searched_cost[&(state.position, state.tool)] > state.cost
+        {
+            already_searched_cost
+                .entry((state.position, state.tool))
                 .and_modify(|c| *c = state.cost)
                 .or_insert(state.cost);
 
@@ -118,15 +124,15 @@ fn get_erosion_level(
     let geo_val = if (x, y) == (0, 0) || (x, y) == target_coords {
         0
     } else if y == 0 {
-        (x * y0_root) as u32
+        (x * Y0_ROOT) as u32
     } else if x == 0 {
-        (y * x0_root) as u32
+        (y * X0_ROOT) as u32
     } else {
         get_erosion_level(x - 1, y, input_params, erosion_levels)
             * get_erosion_level(x, y - 1, input_params, erosion_levels)
     };
 
-    let erosion_level = (geo_val + depth) % erosion_mod;
+    let erosion_level = (geo_val + depth) % EROSION_MOD;
     erosion_levels.insert((x, y), erosion_level);
 
     return erosion_level;
