@@ -39,11 +39,11 @@ fn solve_all() {
     time(&day23::solve);
 }
 
-fn time(f: &Fn()) {
+fn time(f: &dyn Fn()) {
     time_with_label(f, "Solved in");
 }
 
-fn time_with_label(f: &Fn(), label: &str) {
+fn time_with_label(f: &dyn Fn(), label: &str) {
     let now = Instant::now();
     f();
     let duration = now.elapsed();

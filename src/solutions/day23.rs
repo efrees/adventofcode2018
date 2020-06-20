@@ -5,7 +5,7 @@ use regex::Regex;
 pub fn solve() {
     println!("Day 23");
 
-    let lines = adventlib::read_input_lines("day23test2input.txt");
+    let lines = adventlib::read_input_lines("day23input.txt");
 
     let bots: Vec<_> = lines.iter().map(|l| parse_bot(l)).collect();
     let strongest_bot = bots.iter().max_by_key(|b| b.radius).expect("Must be a max");
@@ -14,24 +14,31 @@ pub fn solve() {
 
     println!("Bots reached by strongest: {}", bots_in_reach);
 
-    let origin = Point3d::new(0,0,0);
+    let origin = Point3d::new(0, 0, 0);
     let bots_connected = bots.iter().map(|b| reached_by_bot_count(b, &bots));
 
     let mut max_bot_count = 0;
     let mut max_bot_dist = !0;
+    let mut max_bot = None;
 
     for (i, count) in bots_connected.enumerate() {
-        if count >= max_bot_count {
-            let bot_dist = bots[i].location.manhattan_dist_to(&origin);
+        if count < max_bot_count {
+            continue;
+        }
 
-            if count > max_bot_count || bot_dist < max_bot_dist {
-                max_bot_count = count;
-                max_bot_dist = bot_dist;
-            }
+        let bot_dist = bots[i].location.manhattan_dist_to(&origin);
+
+        if count > max_bot_count || bot_dist < max_bot_dist {
+            max_bot_count = count;
+            max_bot_dist = bot_dist;
+            max_bot = Some(bots[i].clone())
         }
     }
 
-    //> 112121559
+    // Stats:
+    //  - 1000 points
+    //  - 990 max "candidates" (signals intersect) for any single bot
+    //> 112121559 distance from origin
     println!("Maximally connected count: {}", max_bot_count);
     println!("Distance to maximally connected: {}", max_bot_dist);
 }
@@ -41,7 +48,7 @@ fn parse_bot(line: &str) -> NanoBot {
         static ref PATTERN: Regex =
             Regex::new(r"pos=<([-\d]+),([-\d]+),([-\d]+)>, r=(\d+)").expect("Parse pattern");
     }
-    let captures = pattern.captures(line).expect("Line should match format");
+    let captures = PATTERN.captures(line).expect("Line should match format");
     let location = Point3d::new(
         captures[1].parse().unwrap(),
         captures[2].parse().unwrap(),
@@ -54,21 +61,29 @@ fn parse_bot(line: &str) -> NanoBot {
 }
 
 fn bots_in_reach_of(bot: &NanoBot, all_bots: &Vec<NanoBot>) -> usize {
-    all_bots.iter()
-        .filter(|b| {
-            b.location.manhattan_dist_to(&bot.location) <= bot.radius as i64
-        })
+    all_bots
+        .iter()
+        .filter(|b| b.location.manhattan_dist_to(&bot.location) <= bot.radius as i64)
         .count()
 }
 
 fn reached_by_bot_count(bot: &NanoBot, all_bots: &Vec<NanoBot>) -> usize {
-    all_bots.iter()
+    all_bots
+        .iter()
+        .filter(|b| b.location.manhattan_dist_to(&bot.location) <= b.radius as i64)
+        .count()
+}
+
+fn potentially_grouped_with_count(bot: &NanoBot, all_bots: &Vec<NanoBot>) -> usize {
+    all_bots
+        .iter()
         .filter(|b| {
-            b.location.manhattan_dist_to(&bot.location) <= b.radius as i64
+            b.location.manhattan_dist_to(&bot.location) < bot.radius as i64 + b.radius as i64
         })
         .count()
 }
 
+#[derive(Clone)]
 struct NanoBot {
     location: Point3d,
     radius: u32,
